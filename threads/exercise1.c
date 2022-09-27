@@ -4,8 +4,8 @@
 #include <pthread.h>
 #include <stdlib.h>
 
-#define MAX_THREADS 5
-
+#define MAX_THREADS 10
+int global_counter = 0;
 void *func1(void *arg);
 
 int main() {
@@ -19,12 +19,15 @@ int main() {
     for(int i = 0; i < MAX_THREADS; i++) {
         pthread_join(my_threads[i], &ret);
     }
-    printf("thread exited with %s\n", (char *) ret);
+    printf("Program exited with counter on %d\n", global_counter);
     pthread_exit(NULL);
 }
 
 void *func1(void *arg) {
     pthread_t id = pthread_self();
     printf("Nova thread criada. TID = %lu\n ", id);
+    for(int i = 0; i < 100; i++){
+        global_counter++;
+    }
     pthread_exit(NULL);
 }
